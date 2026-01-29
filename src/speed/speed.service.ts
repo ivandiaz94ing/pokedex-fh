@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import axios, { AxiosInstance } from 'axios';
 import { PokeResponse } from './interfaces/poke-response.interface';
+import e from 'express';
 
 @Injectable()
 export class SpeedService {
@@ -15,8 +16,16 @@ export class SpeedService {
     // console.log(data);
 
     // Ejemplo de una petición HTTP usando axios
-    const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=10');
+    const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=3');
     console.log(data);
+
+    data.results.forEach(({url, name}) => {
+      
+      const segments = url.split('/');
+      const no:number = +segments[segments.length - 2];
+      console.log({name, no});
+    });
+
 
     return data.results;
   }
